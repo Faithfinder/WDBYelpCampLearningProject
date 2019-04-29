@@ -1,0 +1,25 @@
+{
+  "name": "wdbyelpcamplearningproject",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Faithfinder/WDBYelpCampLearningProject.git"
+  },
+  "author": "Dmitrii Kartashev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Faithfinder/WDBYelpCampLearningProject/issues"
+  },
+  "homepage": "https://github.com/Faithfinder/WDBYelpCampLearningProject#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.11"
+  }
+}
