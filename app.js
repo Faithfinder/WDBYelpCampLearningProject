@@ -12,9 +12,9 @@ setUpServer();
 setUpGetRoutes();
 setUpPostroutes();
 
-app.listen(
-    port = 3000,
-    callback = () => {
+let port = process.env.PORT || 3000
+
+app.listen(port, () => {
         console.log("Started YelpCamp server");
     });
 
