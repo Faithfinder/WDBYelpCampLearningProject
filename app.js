@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
-var sampleCampgrounds = [
+let sampleCampgrounds = [
     { name: "Campground 1", image: "https://farm8.staticflickr.com/7285/8737935921_47343b7a5d.jpg" },
     { name: "Campground 2", image: "https://farm9.staticflickr.com/8471/8137270056_21d5be6f52.jpg" },
     { name: "Campground 3", image: "https://farm3.staticflickr.com/2924/14465824873_026aa469d7.jpg" }
@@ -41,7 +41,7 @@ function setUpGetRoutes() {
 
 function setUpPostroutes() {
     app.post("/campgrounds", (req, res) => {
-        var campground = {
+        let campground = {
             name: req.body.name,
             image: req.body.image
         };
