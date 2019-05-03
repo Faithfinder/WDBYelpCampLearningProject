@@ -5,8 +5,7 @@ const
     mongoose = require("mongoose")
 
 
-let mongoServer = process.env.MONGODB_URI || "mongodb://localhost:27017"
-let mongoUri = mongoServer + "/yelp_camp";
+let mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_camp"
 mongoose.connect(mongoUri, {useNewUrlParser: true});
 
 const campgroundSchema = new mongoose.Schema({
