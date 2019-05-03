@@ -1,22 +1,30 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
+const
+    express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose")
 
-let sampleCampgrounds = [
-    { name: "Campground 1", image: "https://farm8.staticflickr.com/7285/8737935921_47343b7a5d.jpg" },
-    { name: "Campground 2", image: "https://farm9.staticflickr.com/8471/8137270056_21d5be6f52.jpg" },
-    { name: "Campground 3", image: "https://farm3.staticflickr.com/2924/14465824873_026aa469d7.jpg" }
-];
+
+let mongoServer = process.env.MONGODB_URI || "mongodb://localhost:27017"
+let mongoUri = mongoServer + "/yelp_camp";
+mongoose.connect(mongoUri, {useNewUrlParser: true});
+
+const campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+const Campground = mongoose.model("Campground", campgroundSchema);
 
 setUpServer();
 setUpGetRoutes();
-setUpPostroutes();
+setUpPostRoutes();
 
 let port = process.env.PORT || 3000
 
 app.listen(port, () => {
-        console.log("Started YelpCamp server");
-    });
+    console.log(`Started YelpCamp server at port ${port}`);
+});
 
 
 function setUpServer() {
@@ -30,8 +38,13 @@ function setUpGetRoutes() {
     });
 
     app.get("/campgrounds", (req, res) => {
-        
-        res.render("campgrounds", { campgrounds: sampleCampgrounds });
+        Campground.find({}, (err, campgrounds) => {
+            if (err) {
+                console.log("Error!", err);
+            } else {
+                res.render("campgrounds", { campgrounds: campgrounds });
+            }
+        });
     });
 
     app.get("/campgrounds/new", (req, res) => {
@@ -39,13 +52,20 @@ function setUpGetRoutes() {
     });
 }
 
-function setUpPostroutes() {
+function setUpPostRoutes() {
     app.post("/campgrounds", (req, res) => {
+
         let campground = {
             name: req.body.name,
             image: req.body.image
         };
-        sampleCampgrounds.push(campground);
-        res.redirect("/campgrounds");
+
+        Campground.create(campground, (err, campground) => {
+            if (err) {
+                console.log("Error!", err);
+            } else {
+                res.redirect("/campgrounds");
+            }
+        });        
     });
 }
