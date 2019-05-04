@@ -6,11 +6,12 @@ const
 
 
 let mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_camp"
-mongoose.connect(mongoUri, {useNewUrlParser: true});
+mongoose.connect(mongoUri, { useNewUrlParser: true });
 
 const campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 const Campground = mongoose.model("Campground", campgroundSchema);
@@ -41,13 +42,24 @@ function setUpGetRoutes() {
             if (err) {
                 console.log("Error!", err);
             } else {
-                res.render("campgrounds", { campgrounds: campgrounds });
+                res.render("index", { campgrounds: campgrounds });
             }
         });
     });
 
     app.get("/campgrounds/new", (req, res) => {
         res.render("new");
+    });
+
+    app.get("/campgrounds/:id", (req, res) => {
+        Campground.findById(req.params.id, (err, campground) => {
+            if (err) {
+                console.log("Error!", err);
+            } else {
+                res.render("show", { campground: campground });
+            }
+        })
+
     });
 }
 
@@ -56,7 +68,8 @@ function setUpPostRoutes() {
 
         let campground = {
             name: req.body.name,
-            image: req.body.image
+            image: req.body.image,
+            description: req.body.description
         };
 
         Campground.create(campground, (err, campground) => {
@@ -65,6 +78,6 @@ function setUpPostRoutes() {
             } else {
                 res.redirect("/campgrounds");
             }
-        });        
+        });
     });
 }

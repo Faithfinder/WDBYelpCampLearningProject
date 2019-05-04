@@ -17,7 +17,9 @@
                 <img class="card-img-top" src="<%= campground.image %>">
                 <div class="card-body">
                     <h4> <%=campground.name%> </h4>
+                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More info</a>
                 </div>
+
             </div>
         </div>
         <% }); %>
