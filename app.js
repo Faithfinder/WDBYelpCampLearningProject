@@ -2,19 +2,15 @@ const
     express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
-    mongoose = require("mongoose")
+    mongoose = require("mongoose"),
+    Campground = require("./models/campground"),
+    seedDB = require("./seeds");
 
 
 let mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_camp"
 mongoose.connect(mongoUri, { useNewUrlParser: true });
 
-const campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-const Campground = mongoose.model("Campground", campgroundSchema);
+//seedDB();
 
 setUpServer();
 setUpGetRoutes();
@@ -52,7 +48,7 @@ function setUpGetRoutes() {
     });
 
     app.get("/campgrounds/:id", (req, res) => {
-        Campground.findById(req.params.id, (err, campground) => {
+        Campground.findById(req.params.id).populate("comments").exec( (err, campground) => {
             if (err) {
                 console.log("Error!", err);
             } else {
