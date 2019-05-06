@@ -3,9 +3,9 @@
     <h1 class="text-center mb-5">Add new campground</h1>
 
     <form action="/campgrounds" method="POST">
-        <input class="form-control my-2" type="text" placeholder="Name" name="name">
-        <input class="form-control my-2" type="text" placeholder="Image URL" name="image">
-        <input class="form-control my-2" type="text" placeholder="Description" name="description">
+        <input class="form-control my-2" type="text" placeholder="Name" name="campground[name]">
+        <input class="form-control my-2" type="text" placeholder="Image URL" name="campground[image]">
+        <input class="form-control my-2" type="text" placeholder="Description" name="campground[description]">
         <button class="btn btn-primary btn-block my-2"> Submit</button>
     </form>
 </div>
