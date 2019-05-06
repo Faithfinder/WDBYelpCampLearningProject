@@ -5,6 +5,7 @@ const
     mongoose = require("mongoose"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
 
     Campground = require("./models/campground"),
     Comment = require("./models/comment"),
@@ -18,7 +19,7 @@ const
 
 
 let mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/yelp_camp"
-mongoose.connect(mongoUri, { useNewUrlParser: true });
+mongoose.connect(mongoUri, { useNewUrlParser: true, useFindAndModify: false });
 
 //seedDB();
 
@@ -35,6 +36,7 @@ function setUpServer() {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.set("view engine", "ejs");
     app.use(express.static(__dirname + "/public"));
+    app.use(methodOverride("_method"));
 
     app.use(require("express-session")({
         secret: "We'll do keeping it secret later",
@@ -51,7 +53,7 @@ function setUpServer() {
         res.locals.currentUser = req.user;
         next();
     });
-    
+
     app.use(indexRoutes);
     app.use("/campgrounds", campgroundRoutes);
     app.use("/campgrounds/:id/comments", commentRoutes);
