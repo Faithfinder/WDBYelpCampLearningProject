@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("./campgrounds/new");
 });
 
@@ -25,11 +25,15 @@ router.get("/:id", (req, res) => {
             res.render("./campgrounds/show", { campground: campground });
         }
     })
-
 });
 
-router.post("/", (req, res) => {
-    console.log(req.body.campground);
+router.post("/", isLoggedIn, (req, res) => {
+    
+    req.body.campground.author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    
     Campground.create(req.body.campground, (err, campground) => {
         if (err) {
             console.log("Error!", err);
