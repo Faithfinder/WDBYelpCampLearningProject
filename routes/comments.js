@@ -60,6 +60,15 @@ router.put("/:comment_id/", (req, res) => {
     })
 });
 
+router.delete("/:comment_id/", (req, res) => {
+    Comment.findByIdAndDelete(req.params.comment_id, (err, comment) => {
+        if (err) {
+            console.log("Error!", err);
+        }
+        res.redirect("/campgrounds/" + req.params.id);
+    })
+});
+
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
