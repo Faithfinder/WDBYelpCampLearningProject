@@ -19,15 +19,18 @@
                     </div>
                     <p class="card-text"><%=campground.description%></p>
                     <p class="card-text"><em>
-                        Submitted by <%= campground.author.username %>
-                    </em></p>
+                            Submitted by <%= campground.author.username %>
+                        </em></p>
+
+                        <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
                     <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-warning">Edit</a>
                     <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
                         <button class="btn btn-danger">Delete</button>
                     </form>
+                    <% } %>
                 </div>
             </div>
-            
+
             <div class="card bg-light">
                 <div class="card-header d-flex justify-content-end">
                     <a href="/campgrounds/<%= campground._id %>/comments/new" class="btn btn-success">Leave a review</a>
@@ -41,12 +44,18 @@
                             <span>Many days ago</span>
                         </div>
                         <div><%= comment.text %></div>
-                        <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
-                        <form class="d-inline" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
+
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+                        <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit"
+                            class="btn btn-sm btn-warning">Edit</a>
+                        <form class="d-inline"
+                            action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
+                            method="post">
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
+                        <% } %>
                     </li>
-                    
+
                     <% }); %>
                 </ul>
             </div>
