@@ -6,6 +6,7 @@ const
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
+    flash = require("connect-flash"),
 
     Campground = require("./models/campground"),
     Comment = require("./models/comment"),
@@ -37,6 +38,7 @@ function setUpServer() {
     app.set("view engine", "ejs");
     app.use(express.static(__dirname + "/public"));
     app.use(methodOverride("_method"));
+    app.use(flash());
 
     app.use(require("express-session")({
         secret: "We'll do keeping it secret later",
@@ -51,6 +53,8 @@ function setUpServer() {
     passport.deserializeUser(User.deserializeUser());
     app.use((req, res, next) => {
         res.locals.currentUser = req.user;
+        res.locals.error = req.flash("error");
+        res.locals.success = req.flash("success")
         next();
     });
 
